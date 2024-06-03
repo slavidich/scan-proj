@@ -1,9 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import { AuthContext } from './AuthProvider';
 
 function Header(){
-    return <div className="header">
-        
-    </div>
+    const [username, setUsername] = useState('');
+    const navigate = useNavigate()
+    const { setIsAuthenticated, isAuthenticated } = useContext(AuthContext);
+
+    function handleLogout(){
+        localStorage.removeItem('username');
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('expire');
+        setIsAuthenticated(false)
+        navigate('/')
+    }
+    
+    useEffect(() => {
+        const storedUsername = localStorage.getItem('username');
+        if (storedUsername) {
+            setUsername(storedUsername);
+        }
+    }, []);
+
+    return <>
+        {isAuthenticated? 
+            <>
+            <div>Добро пожаловать, {username}!</div>
+            <button onClick={handleLogout}>Выйти </button>
+            </>
+            :
+            <Link to="/login"><button>Войти</button></Link>}
+    </>
 }
 
 export default Header

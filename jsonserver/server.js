@@ -15,8 +15,8 @@ server.post('/login', (req, res) => {
   const user = router.db.get('users').find({ username, password }).value();
 
   if (user) {
-    const { accessToken, tokenExpires } = user;
-    res.json({ accessToken, tokenExpires });
+    const { accessToken, expire, username } = user;
+    res.json({ accessToken, expire, username });
   } else {
     res.status(401).json({ message: 'Неверный логин или пароль' });
   }
