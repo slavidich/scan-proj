@@ -25,6 +25,7 @@ function Header(){
     }, []);
 
     return <>
+        <Link to="/">Главная страница</Link>
         {isAuthenticated? 
             <>
             <div>Добро пожаловать, {username}!</div>
